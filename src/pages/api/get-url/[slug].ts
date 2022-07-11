@@ -1,4 +1,3 @@
-import { Console } from "console";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "../../../db/client";
