@@ -1,7 +1,7 @@
 import { Console } from "console";
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { prisma } from "../../db/client";
+import { prisma } from "../../../db/client";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const slug = req.query["slug"];
@@ -23,5 +23,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.send(JSON.stringify({ error: "No link found" }));
     return;
   }
-  return res.redirect(data.url);
+  
+  res.setHeader("Content-Type", "application/json");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Cache-Control",
+    "s-maxage=1000000000, stale-while-revalidate"
+  );
+
+  return res.json(data);
 }
